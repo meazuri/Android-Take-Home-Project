@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TakeHome</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="patientName">Patient Name</string>
+    <string name="dob">Date of Birth</string>
+    <string name="gender">Gender</string>
+    <string name="appointment">Appointment Date</string>
+    <string name="appointment_list">Appointment List</string>
+    <string name="book_appointment">Book Appointment</string>
+
+
+</resources>
