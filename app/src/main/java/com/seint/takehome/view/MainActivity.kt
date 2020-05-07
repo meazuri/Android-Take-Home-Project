@@ -2,12 +2,14 @@ package com.seint.takehome.view
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.seint.takehome.R
+import com.seint.takehome.Utilities
 import com.seint.takehome.model.Appointment
 import com.seint.takehome.view.BookAppointmentActivity.Companion.NEW_APPOINTMENT
 import com.seint.takehome.viewModel.AppointmentViewModel
@@ -32,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         recyclerView.adapter = mAdapter
         recyclerView.isNestedScrollingEnabled = false
 
+        progress_circular.visibility = View.VISIBLE
         appointmentViewModel = ViewModelProviders.of(this).get(AppointmentViewModel::class.java)
 
         appointmentViewModel.appointmentListObservable.observe(this, Observer {
@@ -40,6 +43,7 @@ class MainActivity : AppCompatActivity() {
                 mAdapter.setAppointmentData(it)
                 mAdapter.notifyDataSetChanged()
             }
+            progress_circular.visibility = View.GONE
         })
 
         fab.setOnClickListener { view ->
@@ -53,7 +57,10 @@ class MainActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if(requestCode == 1 && data != null){
             var newAppointment = data.getSerializableExtra(NEW_APPOINTMENT) as? Appointment
-            appointmentViewModel.insert(newAppointment!!)
+            if(newAppointment != null ) {
+                appointmentViewModel.insert(newAppointment)
+                Utilities. showDialog(this,"Success","Appointment Created ")
+            }
         }
     }
 

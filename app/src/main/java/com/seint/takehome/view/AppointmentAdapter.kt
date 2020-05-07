@@ -57,7 +57,7 @@ class AppointmentAdapter (private val context: Context) : RecyclerView.Adapter<A
         notifyDataSetChanged()
     }
     private fun getFormattedDate(lastUpdated: Date?): String {
-        var time = "Appointment Date : "
+        var time = "Date : "
         time += lastUpdated?.let {
             lastUpdated.formatDate(APPOINTMENT_FORMAT)
         } ?: "Not Found"

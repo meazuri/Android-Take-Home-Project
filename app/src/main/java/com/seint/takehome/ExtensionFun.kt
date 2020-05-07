@@ -7,7 +7,7 @@ fun Date.formatDate(format: String) :String{
 
     var time = ""
 
-    if (format.isBlank()){
+    if (format.isNotEmpty()){
         val sdf = SimpleDateFormat(format, Locale.getDefault())
         time +=  sdf.format(this)
 

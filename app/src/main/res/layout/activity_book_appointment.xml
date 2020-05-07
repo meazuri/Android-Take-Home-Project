@@ -15,7 +15,8 @@
         android:layout_height="wrap_content"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="@dimen/fab_margin">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/etPatientName"
@@ -23,19 +24,24 @@
             android:layout_height="wrap_content"
             android:hint="@string/patientName" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/tvDateOfBirth"
-        android:background="@drawable/border_background"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tiLDateOfBirth"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/fab_margin"
-        android:padding="@dimen/fab_margin"
-        android:hint="@string/dob"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tiLPatientName"/>
+        app:layout_constraintTop_toBottomOf="@+id/tiLPatientName"
+        android:layout_marginTop="@dimen/fab_margin">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tvDateOfBirth"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:padding="@dimen/fab_margin"
+            android:hint="@string/dob" />
+    </com.google.android.material.textfield.TextInputLayout>
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -46,7 +52,7 @@
         android:layout_marginTop="@dimen/fab_margin"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvDateOfBirth">
+        app:layout_constraintTop_toBottomOf="@+id/tiLDateOfBirth">
 
         <AutoCompleteTextView
             android:id="@+id/autoTextGender"
@@ -55,19 +61,24 @@
             android:hint="@string/gender"
             android:inputType="none" />
     </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/tvAppointment"
-        android:background="@drawable/border_background"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tiLAppointment"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/fab_margin"
-        android:padding="@dimen/fab_margin"
-        android:hint="@string/appointment"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tiLGender" />
+        app:layout_constraintTop_toBottomOf="@+id/tiLGender">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/tvAppointment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/fab_margin"
+            android:padding="@dimen/fab_margin"
+            android:hint="@string/appointment" />
+    </com.google.android.material.textfield.TextInputLayout>
     <Button
         android:id="@+id/btnBook"
         android:layout_width="0dp"
@@ -76,5 +87,5 @@
         android:text="Book"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvAppointment" />
+        app:layout_constraintTop_toBottomOf="@+id/tiLAppointment" />
 </androidx.constraintlayout.widget.ConstraintLayout>
