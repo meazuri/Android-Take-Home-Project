@@ -14,10 +14,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.material.datepicker.CalendarConstraints
 import com.google.android.material.datepicker.MaterialDatePicker
-import com.seint.takehome.APPOINTMENT_FORMAT
-import com.seint.takehome.DOB_FORMAT
-import com.seint.takehome.R
-import com.seint.takehome.formatDate
+import com.seint.takehome.*
 import com.seint.takehome.model.Appointment
 import com.seint.takehome.model.Gender
 import com.seint.takehome.viewModel.CreateAppointmentViewModel
@@ -44,6 +41,7 @@ class BookAppointmentActivity : AppCompatActivity() {
 
         tvDateOfBirth.inputType = InputType.TYPE_CLASS_DATETIME
         tvAppointment.inputType = InputType.TYPE_NULL
+        tvAppointment.setOnKeyListener(null)
 
 
         appointmentViewModel = ViewModelProviders.of(this).get(CreateAppointmentViewModel::class.java)
@@ -66,25 +64,35 @@ class BookAppointmentActivity : AppCompatActivity() {
                 MaterialDatePicker.Builder.datePicker()
             builder.setInputMode(MaterialDatePicker.INPUT_MODE_CALENDAR)
 
-
-            val constraintsBuilder = CalendarConstraints.Builder()  // 1
-            val calendar = Calendar.getInstance()
-            constraintsBuilder.setStart(calendar.timeInMillis)   //   2
-            calendar.roll(Calendar.YEAR, 1)   //   3
-            constraintsBuilder.setEnd(calendar.timeInMillis)   // 4
-            builder.setCalendarConstraints(constraintsBuilder.build())   //  5
             builder.setSelection(appointmentViewModel.appointmentDate?.time)
             val picker: MaterialDatePicker<*> = builder.build()
             picker.show(supportFragmentManager, picker.toString())
             picker.addOnPositiveButtonClickListener {
 
+
+
+               var calendar = Calendar.getInstance()
+                calendar.timeInMillis = it as Long
+
+                var currentTime = Calendar.getInstance()
+                calendar[Calendar.HOUR_OF_DAY] = currentTime.get(Calendar.HOUR_OF_DAY)
+                calendar[Calendar.MINUTE] = currentTime.get(Calendar.MINUTE)
+                calendar[Calendar.SECOND] = currentTime.get(Calendar.SECOND)
+                appointmentViewModel.appointmentDate = calendar.time
+
+                tvAppointment.setText(appointmentViewModel.appointmentDate?.formatDate(
+                    APPOINTMENT_FORMAT).toString())
+                validateRequiredFields()
+
+
+                //If we what to pick Time
                 // Get the offset from our timezone and UTC.
                 val timeZoneUTC = TimeZone.getDefault()
                 // It will be negative, so that's the -1
                 val offsetFromUTC = timeZoneUTC.getOffset(Date().time) * -1
                 // Create a date format, then a date object with our offset
                 val date = Date(it as Long + offsetFromUTC)
-                showTimePicker(date)
+                //showTimePicker(date)
 
             }
 
@@ -175,40 +183,7 @@ class BookAppointmentActivity : AppCompatActivity() {
         return true
 
     }
-    fun isValidAppointmentDate(date:Date) :Boolean{
-        val calendar: Calendar = Calendar.getInstance()
-        calendar.timeInMillis =date.time
 
-            val year = calendar[Calendar.YEAR]
-            val date = calendar[Calendar.DAY_OF_YEAR]
-            val thisYear = Calendar.getInstance()[Calendar.YEAR]
-            val thisDate = Calendar.getInstance()[Calendar.DAY_OF_YEAR]
-            return year >= thisYear && date >= thisDate
-
-    }
-
-    fun isValidBirthday(birthday: String?): Boolean {
-        val calendar: Calendar? = parseDateString(birthday)
-        if ( calendar != null) {
-            val year = calendar[Calendar.YEAR]
-            val date = calendar[Calendar.DAY_OF_YEAR]
-            val thisYear = Calendar.getInstance()[Calendar.YEAR]
-            val thisDate = Calendar.getInstance()[Calendar.DAY_OF_YEAR]
-            return year in 1900 until  thisYear || (year ==  thisYear && date <= thisDate )
-        }
-        return false
-    }
-    fun parseDateString(date: String?): Calendar? {
-        val calendar = Calendar.getInstance()
-        val sourceFormat: DateFormat = SimpleDateFormat("dd/MM/yyyy")
-        try {
-           var result =sourceFormat.parse(date)
-            calendar.timeInMillis = result.time
-        } catch (e: ParseException) {
-        }
-        Log.i("DOB",calendar.time.toString())
-        return calendar
-    }
 
     fun showTimePicker(date:Date){
         val mcurrentTime = Calendar.getInstance()

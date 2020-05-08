@@ -20,4 +20,7 @@ interface AppointmentDao {
     @Delete
     fun delete(appointment: Appointment)
 
+    @Query("SELECT * FROM Appointment WHERE name = :searchName")
+    fun  getPatientByName(searchName: String):List<Appointment>
+
 }
